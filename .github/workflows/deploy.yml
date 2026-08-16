@@ -9,22 +9,15 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Deploy to cPanel via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+      # No checkout needed — the server already has its own clone (set up
+      # via cPanel's Git Version Control, cloned from this repo). All this
+      # job does is SSH in and fast-forward that clone to the latest commit.
+      - name: Pull latest on server via SSH
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          server: ${{ secrets.FTP_HOST }}
-          username: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          protocol: ftps
-          # If your FTP account's home directory is already public_html,
-          # leave this as ./ . If it lands one level up (the account root,
-          # with public_html as a subfolder), change this to ./public_html/
-          server-dir: ./
-          exclude: |
-            **/.git*
-            **/.git*/**
-            **/.github/**
-            **/node_modules/**
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          script: |
+            git -C ~/public_html pull origin main
