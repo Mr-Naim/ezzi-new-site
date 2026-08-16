@@ -936,15 +936,48 @@ body {
 	font-weight: 700;
 	text-transform: uppercase;
 	letter-spacing: 1px;
-	color: rgba(0, 0, 0, 0.9);
+	color: rgba(255, 255, 255, 0.92);
 	margin: 22px 0 12px;
 	padding-top: 16px;
-	border-top: 1px solid rgba(0, 0, 0, 0.15);
+	border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 .info-wrap .ezzi-office-heading:first-of-type {
 	margin-top: 0;
 	padding-top: 0;
 	border-top: none;
+}
+
+/* Drop the template's yellow card behind the office details — it stands
+   apart from the rest of the site's palette. Left transparent instead, so
+   it reads as part of the same dark page as the form beside it, with a
+   thin line down its right edge (only once the columns actually sit side
+   by side, from md up) standing in for the old colour-block separation. */
+.info-wrap {
+	background: transparent !important;
+	color: rgba(255, 255, 255, 0.8);
+}
+.info-wrap h3 {
+	color: #fff;
+}
+.info-wrap .dbox p span {
+	color: #fff;
+}
+.info-wrap .dbox p a {
+	color: #f3c623;
+}
+.info-wrap .dbox p a:hover {
+	color: #dfc083;
+}
+.info-wrap .dbox .icon {
+	border-color: rgba(255, 255, 255, 0.25);
+}
+.info-wrap .dbox .icon span {
+	color: #f3c623;
+}
+@media (min-width: 768px) {
+	.info-wrap {
+		border-right: 1px solid rgba(255, 255, 255, 0.12);
+	}
 }
 
 /* The template's `.js-fullheight` script force-sets an inline height equal
