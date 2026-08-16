@@ -1,0 +1,959 @@
+/* EZZI Perfumery House — overrides on top of the Mostudio template.
+   Kept separate from style.css so the template's own file is untouched. */
+
+/* Brand background — a lit emerald gradient (main content) paired with a
+   lighter emerald sidebar, replacing the flat near-black of the original
+   template so the approved dark-horse logo has a surface it reads against. */
+body {
+	background-color: #0a1f16 !important;
+	background-image:
+		radial-gradient(ellipse 80% 50% at 62% -5%, rgba(58, 148, 105, 0.45), transparent 60%),
+		radial-gradient(ellipse 60% 40% at 8% 100%, rgba(31, 107, 73, 0.28), transparent 60%),
+		linear-gradient(165deg, #16412c 0%, #0d2b1d 45%, #081712 100%) !important;
+	background-attachment: fixed;
+}
+#colorlib-aside {
+	background-color: #163f2b !important;
+	background-image:
+		radial-gradient(circle at 22% 9%, rgba(255, 255, 255, 0.16), transparent 40%),
+		linear-gradient(200deg, #1f6b49 0%, #163f2b 55%, #0e2a1c 100%) !important;
+}
+/* Thick gold border strip along the sidebar's right edge. Drawn directly
+   instead of relying on the template's aside.png background layer, which
+   the mobile media query's `background` shorthand (and the off-canvas
+   open-state rule) kept clobbering via the cascade. A pseudo-element side-
+   steps that fight entirely. */
+#colorlib-aside::after {
+	content: '';
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	width: 5px;
+	background: linear-gradient(180deg, rgba(243, 198, 35, 0) 0%, #f3c623 20%, #fdf1c4 50%, #f3c623 80%, rgba(243, 198, 35, 0) 100%);
+	z-index: 2;
+}
+#ftco-loader.fullscreen {
+	background-color: #0d2b1d !important;
+}
+
+/* Golden gradient display text — a muted antique-gold tone. Kept to a
+   narrow range (rather than the wide light-to-dark span tried earlier):
+   on a wrapped two/three-line headline, `background-clip: text` samples
+   the gradient per the *whole element's* box height, so a wide top-to-
+   bottom spread made each line read as a visibly different flat colour
+   instead of one subtle gradient. Narrowing it keeps every line close to
+   the same bronze-gold shade.
+   Font switched from the template's decorative "Abril Fatface" to Poppins
+   Bold — the simple, chunky sans used on the brand logo lockup — per the
+   approved reference. */
+.portfolio-wrap .text .desc .top h2,
+.portfolio-wrap .text .desc .top h2 a,
+.portfolio-wrap-2 .text .desc .top h2,
+.portfolio-wrap-2 .text .desc .top h2 a,
+.ftco-about .text h2,
+.ftco-about .text h2 span,
+.single h1 {
+	background: linear-gradient(90deg, #ab8b57 0%, #dfc083 14%, #dfc083 86%, #ab8b57 100%);
+	-webkit-background-clip: text;
+	background-clip: text;
+	-webkit-text-fill-color: transparent;
+	color: #dfc083;
+	font-family: "Poppins", Arial, sans-serif;
+	font-weight: 600;
+}
+
+/* Between the phone breakpoint (which already gets its own 7.4vw rule) and
+   ~1300px, the two-column hero still runs side-by-side but each column is
+   narrow enough (sidebar eating a fixed share of the width) that the fixed
+   40px desktop size wraps "Share The World Of Fragrance With Us" onto four
+   cramped lines instead of two. Step it down for that in-between range. */
+@media (min-width: 768px) and (max-width: 1300px) {
+	.portfolio-wrap .text .desc .top h2,
+	.portfolio-wrap-2 .text .desc .top h2,
+	.ftco-about .text h2 {
+		font-size: 26px;
+	}
+}
+
+/* About-page hero: a transparent-background badge PNG standing in for the
+   template's usual full-bleed photo. The shared `.img` class defaults to
+   `background-size: cover`, which would crop the circular badge to fit the
+   panel; `contain` on a solid dark backdrop shows the whole seal instead. */
+.ftco-about .img {
+	background-size: 55%;
+	background-color: #0c1710;
+}
+
+/* Body copy left at the template's default #666 grey (a light-theme
+   holdover) reads as a barely-visible smudge on our dark background.
+   Bump it to near-white wherever it appears outside the components that
+   already set their own colour. */
+.portfolio-wrap .text .desc .absolute p,
+.portfolio-wrap-2 .text .desc .absolute p,
+.ftco-about .text p {
+	color: rgba(255, 255, 255, 0.85);
+	text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+}
+
+/* Subheading kickers (e.g. "EZZI PERFUMERY HOUSE · EST. 1978") — the
+   template renders these at 20% white opacity, which is basically
+   invisible against a dark background; the reference shows a crisp gold
+   label instead. */
+.portfolio-wrap .text .subheading,
+.portfolio-wrap-2 .text .subheading,
+.ftco-about .text .subheading {
+	color: #dfc083 !important;
+	text-shadow: 0 1px 6px rgba(0, 0, 0, 0.8);
+}
+
+/* Real logo image in place of the template's text-clipped logo effect. */
+#colorlib-aside #colorlib-logo a {
+	background-image: none !important;
+	-webkit-text-fill-color: initial !important;
+	color: transparent;
+	display: block;
+}
+#colorlib-aside #colorlib-logo img {
+	max-width: 145px;
+	width: 100%;
+	height: auto;
+	display: block;
+}
+
+/* Mobile-only top bar: the sidebar is off-canvas (translated out of view)
+   below the 991.98px breakpoint, so without this the phone view shows no
+   branding at all until the hamburger is tapped — just an empty toggle
+   icon over whatever hero photo is loading. Give phones a persistent,
+   centered logo instead, and hide the (now redundant) one inside the
+   off-canvas sidebar. */
+.ezzi-mobile-topbar {
+	display: none;
+}
+@media (max-width: 991.98px) {
+	.ezzi-mobile-topbar {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: sticky;
+		top: 0;
+		z-index: 1000;
+		padding: 14px 0;
+		pointer-events: none;
+	}
+	/* The logo's horses and text are dark, so it disappears against
+	   whatever busy hero photo is scrolled behind the topbar. Desktop gets
+	   this for free from the sidebar's own ambient highlight near the logo;
+	   give phones the same kind of soft wash — narrower than the full bar
+	   width and taller than the bar itself, so the glow stays centred on
+	   the logo instead of spanning edge to edge, while still covering the
+	   logo's full height rather than fading out partway down it.
+	   A `::before` pinned to z-index 0, with the logo's own `<a>` explicitly
+	   promoted to z-index 1, so the glow can never paint over the mark
+	   itself — relying on default paint order left the logo looking washed
+	   out/whitish at its fine edges. */
+	.ezzi-mobile-topbar::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 0;
+		background: radial-gradient(ellipse 115px 105px at 50% 46%, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.03) 55%, transparent 82%);
+		pointer-events: none;
+	}
+	.ezzi-mobile-topbar a {
+		position: relative;
+		z-index: 1;
+		pointer-events: auto;
+		display: block;
+	}
+	.ezzi-mobile-topbar img {
+		max-width: 108px;
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+	#colorlib-aside #colorlib-logo {
+		display: none;
+	}
+	/* The off-canvas menu (#colorlib-aside, z-index 1001) sits above this
+	   sticky bar (z-index 1000) but doesn't span the full viewport width on
+	   narrow phones, so the bar was showing through next to/over the open
+	   menu and colliding with the toggle icon. Simplest fix: hide the bar
+	   outright while the menu is open — the nav takes over as the header. */
+	body.offcanvas .ezzi-mobile-topbar {
+		display: none;
+	}
+	/* The template pins the hamburger to the very top-left corner (top: 0),
+	   which sits well above the logo's vertical centre once the topbar's
+	   14px padding and the logo's own height are accounted for. Nudge it
+	   down so both read as one header row. */
+	.colorlib-nav-toggle {
+		top: 17px;
+		left: auto;
+		right: 0;
+	}
+	/* The top gradient wash added above (for the logo's contrast) is itself
+	   light, so the toggle's white bars now sit on a light backdrop instead
+	   of the old plain photo/dark background. Drop-shadow keeps the icon
+	   readable regardless of what's behind it. */
+	.colorlib-nav-toggle i {
+		filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.65));
+	}
+	/* The template shifts the toggle +220px on open to track the sidebar
+	   push from its original left:0 position. Pinned to the right instead,
+	   that same shift would carry it off-screen, so cancel it. */
+	body.offcanvas .colorlib-nav-toggle {
+		transform: none;
+	}
+}
+
+/* Partner logo badges — the source logos are all print-ready artwork on
+   solid white backgrounds (no transparent variants available), so rather
+   than fight that, each one sits on its own white plate. Used on category
+   pages, the homepage partner strip and partners.html. */
+.ezzi-partner-strip {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 26px;
+	margin: 0 0 10px;
+}
+.ezzi-partner-item {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+.ezzi-partner-badge {
+	background: #fff;
+	border-radius: 10px;
+	padding: 18px 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 190px;
+	min-height: 92px;
+	box-shadow: 0 12px 26px rgba(0, 0, 0, 0.3);
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.ezzi-partner-badge:hover {
+	transform: translateY(-4px);
+	box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+}
+.ezzi-partner-badge img {
+	max-width: 170px;
+	max-height: 64px;
+	width: auto;
+	height: auto;
+	display: block;
+}
+.ezzi-partner-country {
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 2px;
+	font-weight: 700;
+	color: rgba(255, 255, 255, 0.65);
+}
+
+/* Full partner profile block on partners.html. */
+.ezzi-partner-profile {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 40px;
+	padding: 40px 0;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.ezzi-partner-profile:last-child {
+	border-bottom: none;
+}
+.ezzi-partner-profile .ezzi-partner-badge {
+	flex: 0 0 260px;
+	min-height: 140px;
+}
+.ezzi-partner-profile .ezzi-partner-badge img {
+	max-width: 210px;
+	max-height: 92px;
+}
+.ezzi-partner-profile-body {
+	flex: 1 1 320px;
+	min-width: 280px;
+}
+.ezzi-partner-profile-body h3 {
+	color: #fff;
+	font-size: 22px;
+	font-weight: 600;
+	margin-bottom: 4px;
+}
+.ezzi-partner-profile-body .ezzi-partner-country {
+	display: block;
+	margin-bottom: 12px;
+}
+.ezzi-partner-profile-body p {
+	color: rgba(255, 255, 255, 0.75);
+	line-height: 1.8;
+	margin-bottom: 12px;
+}
+.ezzi-partner-profile-body .ezzi-chip-row {
+	margin-bottom: 0;
+}
+
+/* Facebook icon next to the newsletter box in the sidebar footer. */
+.ezzi-social {
+	display: flex;
+	gap: 10px;
+}
+.ezzi-social a {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 36px;
+	height: 36px;
+	border: 1px solid rgba(255, 255, 255, 0.3);
+	border-radius: 50%;
+	color: rgba(255, 255, 255, 0.8);
+	transition: all 0.3s ease;
+}
+.ezzi-social a:hover {
+	border-color: #f3c623;
+	color: #f3c623;
+}
+
+/* Category description copy inside the repurposed .pricing cards
+   (template shipped only h3/ul/price/button styles for this block). */
+.pricing .text p.ezzi-cat-desc {
+	color: rgba(255, 255, 255, 0.85);
+	font-size: 14px;
+	line-height: 1.6;
+	margin-bottom: 20px;
+}
+
+/* Homepage hero rows on phones: the template stacks the Bootstrap columns,
+   so .img (forced to 100vh by js-fullheight) pushed all copy a full screen
+   below the fold — first paint was just a bare photo behind the hamburger.
+   Overlay the text on the photo instead so each section reads as a hero. */
+/* Section heading used to introduce a card grid or content block outside of
+   the template's own hero components (which hardcode their own heading style). */
+.ezzi-section-heading {
+	text-align: center;
+	margin-bottom: 40px;
+}
+.ezzi-section-heading .subheading {
+	display: block;
+	text-transform: uppercase;
+	font-size: 13px;
+	letter-spacing: 3px;
+	color: rgba(255, 255, 255, 0.5);
+	font-weight: 600;
+	margin-bottom: 8px;
+}
+.ezzi-section-heading h2 {
+	font-family: "Poppins", Arial, sans-serif;
+	font-weight: 600;
+	color: #fff;
+	font-size: 34px;
+}
+.ezzi-section-heading h2 span {
+	color: #dfc083;
+}
+
+/* Long-form category pages (fragrances/flavours/colours/seasoning): the
+   template's default body copy is #666 on a light-theme assumption, which
+   disappears against our dark green background, so give this content its
+   own readable palette. */
+.ezzi-content h3 {
+	color: #fff;
+	font-weight: 500;
+	font-size: 24px;
+	margin-bottom: 16px;
+}
+.ezzi-content p,
+.ezzi-content li {
+	color: rgba(255, 255, 255, 0.75);
+	line-height: 1.8;
+}
+.ezzi-content p.lead {
+	color: rgba(255, 255, 255, 0.9);
+	font-size: 17px;
+}
+
+/* Pill-style jump nav linking to the sections within a category page. */
+.ezzi-jump-nav {
+	text-align: center;
+	margin-bottom: 50px;
+}
+.ezzi-jump-nav a {
+	display: inline-block;
+	margin: 0 6px 12px;
+	padding: 8px 20px;
+	border: 1px solid rgba(243, 198, 35, 0.5);
+	border-radius: 30px;
+	color: #f3c623;
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: 1px;
+	font-weight: 600;
+	transition: all 0.3s ease;
+}
+.ezzi-jump-nav a:hover {
+	background: #f3c623;
+	color: #0f1a12;
+}
+
+/* Generic gold pill button/link — same treatment as the jump-nav pills
+   above, usable anywhere on the page outside `.pricing`/`.portfolio-wrap`
+   (the only contexts where the template's own `.btn-custom` is styled). */
+.ezzi-pill-btn {
+	display: inline-block;
+	padding: 10px 26px;
+	border: 1px solid rgba(243, 198, 35, 0.6);
+	border-radius: 30px;
+	color: #f3c623;
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: 2px;
+	font-weight: 700;
+	transition: all 0.3s ease;
+}
+.ezzi-pill-btn:hover {
+	background: #f3c623;
+	color: #0f1a12;
+}
+
+/* Individual item card inside a category page's feature grid. */
+.ezzi-feature-card {
+	position: relative;
+	background: rgba(255, 255, 255, 0.04);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	border-top: 2px solid rgba(243, 198, 35, 0.45);
+	border-radius: 6px;
+	padding: 22px;
+	height: 100%;
+	margin-bottom: 24px;
+	transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+.ezzi-feature-card:hover {
+	transform: translateY(-4px);
+	border-color: rgba(243, 198, 35, 0.6);
+	background: rgba(255, 255, 255, 0.06);
+}
+.ezzi-feature-card h4 {
+	color: #f3c623;
+	font-size: 15px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-weight: 500;
+	margin-bottom: 10px;
+}
+.ezzi-feature-card p {
+	margin-bottom: 0;
+	font-size: 14px;
+}
+
+/* Small icon badge topping each feature card, so the in-depth category
+   sections aren't pure text. */
+.ezzi-feature-icon {
+	width: 42px;
+	height: 42px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: radial-gradient(circle at 30% 30%, rgba(243, 198, 35, 0.2), rgba(243, 198, 35, 0.04) 70%);
+	margin-bottom: 14px;
+	transition: transform 0.35s ease;
+}
+.ezzi-feature-icon svg {
+	width: 22px;
+	height: 22px;
+	color: #f3c623;
+	transition: transform 0.35s ease;
+}
+.ezzi-feature-card:hover .ezzi-feature-icon svg {
+	transform: scale(1.15) rotate(-6deg);
+}
+
+/* Colour swatch used in place of an icon for the fragrance-families grid,
+   where a tinted dot reads better than a generic line-icon. */
+.ezzi-family-swatch {
+	width: 26px;
+	height: 26px;
+	border-radius: 50%;
+	margin-bottom: 14px;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+	transition: transform 0.35s ease;
+}
+.ezzi-feature-card:hover .ezzi-family-swatch {
+	transform: scale(1.2);
+}
+
+/* Icon-based category card — used on categories.html and the home page's
+   "Our Categories" section. Built from inline SVG line-icons instead of the
+   photography already used in the hero showcases, so the same four photos
+   don't repeat across every page that mentions a category. */
+.ezzi-cat-grid {
+	display: flex;
+	flex-wrap: wrap;
+	margin: 0 -15px;
+}
+.ezzi-cat-col {
+	width: 25%;
+	padding: 0 15px;
+	margin-bottom: 30px;
+	display: flex;
+}
+@media (max-width: 991.98px) {
+	.ezzi-cat-col { width: 50%; }
+}
+@media (max-width: 575.98px) {
+	.ezzi-cat-col { width: 100%; }
+}
+.ezzi-cat-col:nth-child(2) .ezzi-icon-wrap { animation-delay: .3s; }
+.ezzi-cat-col:nth-child(3) .ezzi-icon-wrap { animation-delay: .6s; }
+.ezzi-cat-col:nth-child(4) .ezzi-icon-wrap { animation-delay: .9s; }
+
+.ezzi-cat-card {
+	position: relative;
+	width: 100%;
+	padding: 34px 28px;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.03);
+	border: 1px solid rgba(255, 255, 255, 0.08);
+	transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+	display: flex;
+	flex-direction: column;
+	text-decoration: none !important;
+	cursor: pointer;
+}
+.ezzi-cat-card:hover {
+	transform: translateY(-8px);
+	border-color: rgba(243, 198, 35, 0.5);
+	background: rgba(255, 255, 255, 0.05);
+	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+.ezzi-icon-wrap {
+	width: 78px;
+	height: 78px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: radial-gradient(circle at 30% 30%, rgba(243, 198, 35, 0.22), rgba(243, 198, 35, 0.04) 70%);
+	margin-bottom: 22px;
+	animation: ezzi-float 4s ease-in-out infinite;
+}
+.ezzi-icon {
+	width: 38px;
+	height: 38px;
+	color: #f3c623;
+	transition: transform 0.4s ease;
+}
+.ezzi-cat-card:hover .ezzi-icon {
+	transform: scale(1.14) rotate(-4deg);
+}
+.ezzi-cat-card h3 {
+	color: #fff;
+	font-size: 21px;
+	font-weight: 600;
+	margin-bottom: 10px;
+}
+.ezzi-cat-card p {
+	color: rgba(255, 255, 255, 0.7);
+	font-size: 14px;
+	line-height: 1.7;
+	margin-bottom: 18px;
+}
+.ezzi-chip-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin-bottom: 22px;
+}
+.ezzi-chip {
+	font-size: 11px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	font-weight: 600;
+	color: rgba(255, 255, 255, 0.65);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	border-radius: 30px;
+	padding: 4px 12px;
+}
+.ezzi-cat-link {
+	margin-top: auto;
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: 2px;
+	color: #f3c623;
+	font-weight: 700;
+}
+.ezzi-cat-link .fa {
+	font-size: 12px;
+	transition: transform 0.3s ease;
+}
+.ezzi-cat-card:hover .ezzi-cat-link .fa {
+	transform: translateX(6px);
+}
+
+@keyframes ezzi-float {
+	0%, 100% { transform: translateY(0); }
+	50% { transform: translateY(-6px); }
+}
+
+/* Animated icon-based hero visual for the in-depth category pages — swaps
+   the repeated hero photo for a unique, on-brand illustration per page. */
+.ezzi-hero-visual {
+	position: relative;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 20% 20%, rgba(243, 198, 35, 0.16), transparent 45%),
+		radial-gradient(circle at 80% 75%, rgba(243, 198, 35, 0.1), transparent 50%),
+		#0c1710;
+}
+.ezzi-hero-visual .ezzi-blob {
+	position: absolute;
+	border-radius: 50%;
+	background: rgba(243, 198, 35, 0.08);
+	animation: ezzi-blob-float 8s ease-in-out infinite;
+}
+.ezzi-hero-visual .ezzi-blob.b1 { width: 220px; height: 220px; top: 8%; left: 8%; }
+.ezzi-hero-visual .ezzi-blob.b2 { width: 160px; height: 160px; bottom: 10%; right: 12%; animation-delay: 1.5s; }
+.ezzi-hero-visual .ezzi-blob.b3 { width: 90px; height: 90px; top: 55%; left: 20%; animation-delay: 3s; }
+@keyframes ezzi-blob-float {
+	0%, 100% { transform: translate(0, 0) scale(1); }
+	50% { transform: translate(12px, -16px) scale(1.06); }
+}
+.ezzi-hero-visual .ezzi-hero-icon {
+	position: relative;
+	width: 42%;
+	max-width: 220px;
+	color: #f3c623;
+	filter: drop-shadow(0 8px 24px rgba(243, 198, 35, 0.25));
+	animation: ezzi-float 5s ease-in-out infinite;
+}
+
+/* On phones the columns stack, so this visual (JS-forced to full window
+   height via .js-fullheight) was pushing the whole page's worth of copy
+   below a screen-tall block of empty space. Cap it to a short banner and
+   shrink the blobs/icon to match instead of leaving them lost in it. */
+@media (max-width: 767.98px) {
+	.ezzi-hero-visual.js-fullheight {
+		height: 260px !important;
+	}
+	.ezzi-hero-visual .ezzi-hero-icon {
+		width: 30%;
+		max-width: 120px;
+	}
+	.ezzi-hero-visual .ezzi-blob.b1 { width: 130px; height: 130px; }
+	.ezzi-hero-visual .ezzi-blob.b2 { width: 90px; height: 90px; }
+	.ezzi-hero-visual .ezzi-blob.b3 { width: 54px; height: 54px; }
+
+	/* Same full-window-height issue on the About hero's badge panel. At the
+	   desktop 55% sizing this badge nearly touched the shortened panel's
+	   top/bottom edge, so scale it down further on phones. */
+	.ftco-about .img.js-fullheight {
+		height: 260px !important;
+		background-size: 38%;
+	}
+}
+
+@media (max-width: 767.98px) {
+	/* Poppins Bold runs noticeably wider than the template's old Abril
+	   Fatface at the same size, so the stock 9vw (style.css) was pushing
+	   "Share The World Of" past the viewport edge. Dial it back to keep
+	   the heading inside the frame on phones. */
+	#colorlib-main .portfolio-wrap .text .desc .top h2,
+	#colorlib-main .portfolio-wrap-2 .text .desc .top h2 {
+		font-size: 7.4vw;
+	}
+	#colorlib-main .portfolio-wrap .row.no-gutters {
+		position: relative;
+		display: block;
+		height: 100vh;
+		min-height: 480px;
+		overflow: hidden;
+	}
+	#colorlib-main .portfolio-wrap .img.js-fullheight {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100% !important;
+	}
+	#colorlib-main .portfolio-wrap .img.js-fullheight::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: linear-gradient(180deg, rgba(6, 12, 8, 0.05) 0%, rgba(6, 12, 8, 0.2) 25%, rgba(6, 12, 8, 0.6) 42%, rgba(6, 12, 8, 0.85) 58%, rgba(6, 12, 8, 0.95) 75%, rgba(6, 12, 8, 0.97) 100%);
+		pointer-events: none;
+	}
+	#colorlib-main .portfolio-wrap .icon {
+		position: absolute;
+		top: 20px;
+		right: 20px;
+		left: auto;
+		margin: 0;
+		opacity: 1 !important;
+		z-index: 3;
+		background: rgba(15, 26, 18, 0.45);
+		-webkit-backdrop-filter: blur(2px);
+		backdrop-filter: blur(2px);
+	}
+	#colorlib-main .portfolio-wrap .row.no-gutters > div:not(.img) {
+		position: relative;
+		z-index: 2;
+		width: 100%;
+		max-width: 100%;
+		height: 100%;
+		display: flex;
+		align-items: flex-end;
+	}
+	#colorlib-main .portfolio-wrap .text {
+		width: 100%;
+		padding: 0 30px 56px !important;
+	}
+	#colorlib-main .portfolio-wrap .text .px-4 {
+		padding-left: 0 !important;
+		padding-right: 0 !important;
+	}
+	#colorlib-main .portfolio-wrap .desc,
+	#colorlib-main .portfolio-wrap .desc.text-md-right {
+		text-align: left;
+	}
+	#colorlib-main .portfolio-wrap .desc .absolute,
+	#colorlib-main .portfolio-wrap .desc.text-md-right .absolute {
+		padding-left: 18px;
+		padding-right: 0;
+	}
+	#colorlib-main .portfolio-wrap .desc.text-md-right .absolute::after {
+		left: 0;
+		right: auto;
+	}
+
+	/* Bouncing "scroll for more" cue on the intro hero only. */
+	#colorlib-main .row.d-flex.no-gutters > .portfolio-wrap:first-child .row.no-gutters::after {
+		content: '\f107';
+		font-family: FontAwesome;
+		position: absolute;
+		left: 50%;
+		bottom: 18px;
+		transform: translateX(-50%);
+		z-index: 3;
+		color: rgba(255, 255, 255, 0.85);
+		font-size: 22px;
+		animation: ezzi-scroll-cue 1.6s ease-in-out infinite;
+		pointer-events: none;
+	}
+	@keyframes ezzi-scroll-cue {
+		0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
+		50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
+	}
+}
+
+/* Floating WhatsApp chat widget, present on every page. A lightweight
+   mock chat UI rather than a live conversation — its only real job is to
+   hand off to WhatsApp with whatever the visitor typed. */
+.ezzi-whatsapp {
+	position: fixed;
+	right: 24px;
+	bottom: 24px;
+	z-index: 2000;
+	font-family: "Poppins", Arial, sans-serif;
+}
+.ezzi-whatsapp-toggle {
+	width: 58px;
+	height: 58px;
+	border-radius: 50%;
+	background: #25d366;
+	color: #fff;
+	border: none;
+	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+	font-size: 28px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	transition: transform 0.2s ease;
+}
+.ezzi-whatsapp-toggle:hover {
+	transform: scale(1.08);
+}
+.ezzi-whatsapp-panel {
+	position: absolute;
+	right: 0;
+	bottom: 74px;
+	width: 320px;
+	max-width: calc(100vw - 32px);
+	background: #ece5dd;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+	display: flex;
+	flex-direction: column;
+	opacity: 0;
+	visibility: hidden;
+	transform: translateY(12px);
+	transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+}
+.ezzi-whatsapp.is-open .ezzi-whatsapp-panel {
+	opacity: 1;
+	visibility: visible;
+	transform: translateY(0);
+}
+.ezzi-whatsapp-header {
+	background: #25d366;
+	color: #fff;
+	padding: 14px 16px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	font-weight: 600;
+	font-size: 14.5px;
+}
+.ezzi-whatsapp-header .fa-whatsapp {
+	font-size: 20px;
+}
+.ezzi-whatsapp-header-title {
+	flex: 1;
+}
+.ezzi-whatsapp-close {
+	background: none;
+	border: none;
+	color: #fff;
+	font-size: 13px;
+	cursor: pointer;
+	padding: 4px;
+	line-height: 1;
+	opacity: 0.85;
+}
+.ezzi-whatsapp-close:hover {
+	opacity: 1;
+}
+.ezzi-whatsapp-body {
+	padding: 16px;
+	min-height: 90px;
+}
+.ezzi-whatsapp-bubble {
+	background: #fff;
+	border-radius: 0 8px 8px 8px;
+	padding: 10px 12px;
+	max-width: 85%;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+}
+.ezzi-whatsapp-bubble-name {
+	display: block;
+	color: #128c7e;
+	font-weight: 600;
+	font-size: 12.5px;
+	margin-bottom: 2px;
+}
+.ezzi-whatsapp-bubble p {
+	margin: 0;
+	color: #111;
+	font-size: 14px;
+	line-height: 1.5;
+}
+.ezzi-whatsapp-bubble-time {
+	display: block;
+	margin-top: 4px;
+	color: #999;
+	font-size: 11px;
+}
+.ezzi-whatsapp-input {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 10px;
+	background: #f0f0f0;
+	border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+.ezzi-whatsapp-input input {
+	flex: 1;
+	border: none;
+	border-radius: 20px;
+	padding: 10px 14px;
+	font-size: 14px;
+	outline: none;
+}
+.ezzi-whatsapp-input button {
+	width: 38px;
+	height: 38px;
+	border-radius: 50%;
+	background: #25d366;
+	color: #fff;
+	border: none;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+	flex-shrink: 0;
+	transition: background 0.2s ease;
+}
+.ezzi-whatsapp-input button:hover {
+	background: #1ebd5a;
+}
+@media (max-width: 480px) {
+	.ezzi-whatsapp {
+		right: 16px;
+		bottom: 16px;
+	}
+	.ezzi-whatsapp-toggle {
+		width: 52px;
+		height: 52px;
+		font-size: 25px;
+	}
+	.ezzi-whatsapp-panel {
+		width: calc(100vw - 32px);
+		bottom: 64px;
+	}
+}
+
+/* Contact form send status (mail.php result), replacing the template's
+   unstyled empty `.submitting` placeholder div. */
+.ezzi-form-status {
+	margin-top: 12px;
+	font-size: 14px;
+	min-height: 20px;
+}
+.ezzi-form-status--success {
+	color: #4caf50;
+}
+.ezzi-form-status--error {
+	color: #ff6b6b;
+}
+
+/* Group headings ("EPH Office", "EFF Office", "Corporate Office") splitting
+   the contact panel's three addresses apart — a divider above each except
+   the first, which instead sits right under the intro paragraph. */
+.info-wrap .ezzi-office-heading {
+	font-size: 15px;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	color: rgba(0, 0, 0, 0.9);
+	margin: 22px 0 12px;
+	padding-top: 16px;
+	border-top: 1px solid rgba(0, 0, 0, 0.15);
+}
+.info-wrap .ezzi-office-heading:first-of-type {
+	margin-top: 0;
+	padding-top: 0;
+	border-top: none;
+}
+
+/* The template's `.js-fullheight` script force-sets an inline height equal
+   to the browser window's height — fine when this panel held one short
+   address block, but with three offices' worth of content it's now taller
+   than that, so the overflow spilled down past the panel's own box and sat
+   on top of the map row that follows it. `!important` is required to beat
+   the inline style the script sets; growing to fit its content instead
+   keeps the map row properly pushed below it on every screen size. */
+.info-wrap.js-fullheight {
+	height: auto !important;
+}

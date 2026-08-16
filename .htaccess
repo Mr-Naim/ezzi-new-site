@@ -1,0 +1,40 @@
+# Canonicalize the homepage URL: redirect /index.html to the bare domain
+# root, so the homepage never shows "/index.html" in the address bar —
+# whether from an old bookmark, a search result, or a stray direct link.
+# THE_REQUEST (the raw request line) is checked rather than the rewritten
+# URI, which avoids a redirect loop with Apache's own DirectoryIndex
+# handling of "/".
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
+	RewriteRule ^index\.html$ /? [R=301,L]
+</IfModule>
+
+# EZZI Perfumery House — cache control.
+#
+# Goal: visitors should always see the latest uploaded files without ever
+# needing to manually clear their browser cache, while still benefiting
+# from caching when nothing has actually changed.
+#
+# "no-cache" (despite the name) does NOT disable caching — it tells the
+# browser to keep its cached copy but always revalidate it with the server
+# first (a small conditional request using the file's ETag/Last-Modified).
+# If the file on the server is unchanged, Apache replies 304 Not Modified
+# and the browser reuses its cached copy instantly. If the file changed
+# (e.g. after re-uploading an update), the browser gets the new version
+# right away. This needs no version-number bumping and no client action.
+<IfModule mod_headers.c>
+	<FilesMatch "\.(html|htm|css|js|json|xml)$">
+		Header set Cache-Control "no-cache, must-revalidate"
+	</FilesMatch>
+	<FilesMatch "\.(jpg|jpeg|png|gif|webp|svg|ico|woff|woff2)$">
+		Header set Cache-Control "no-cache, must-revalidate"
+	</FilesMatch>
+</IfModule>
+
+# Make sure Apache is actually generating ETags (it does by default, but
+# some hosts' base configs disable them) — required for the 304 checks
+# above to work correctly.
+<IfModule mod_headers.c>
+	FileETag MTime Size
+</IfModule>

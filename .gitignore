@@ -1,0 +1,6 @@
+# Stale zip export from the old manual upload workflow — not source.
+index.zip
+
+# OS/editor cruft
+.DS_Store
+Thumbs.db
