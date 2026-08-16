@@ -20,4 +20,22 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: ${{ secrets.SSH_PORT || 22 }}
           script: |
-            git -C ~/public_html pull origin main
+            echo "--- whoami / pwd ---"
+            whoami
+            pwd
+            echo "--- home directory listing ---"
+            ls -la ~
+            echo "--- public_html listing ---"
+            ls -la ~/public_html
+            echo "--- git status ---"
+            git -C ~/public_html status 2>&1 || echo "NOT A GIT REPO"
+            echo "--- git remote -v ---"
+            git -C ~/public_html remote -v 2>&1
+            echo "--- git branch -a ---"
+            git -C ~/public_html branch -a 2>&1
+            echo "--- git log -3 (before pull) ---"
+            git -C ~/public_html log -3 --oneline 2>&1
+            echo "--- git pull attempt ---"
+            git -C ~/public_html pull origin main 2>&1
+            echo "--- git log -3 (after pull) ---"
+            git -C ~/public_html log -3 --oneline 2>&1
