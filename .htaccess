@@ -8,6 +8,17 @@
 	RewriteEngine On
 	RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
 	RewriteRule ^index\.html$ /? [R=301,L]
+
+	# --- MAINTENANCE MODE — delete this block to bring the site back. ---
+	# Every page is served by maintenance.php (which answers 503 so search
+	# engines keep the real pages indexed). Images, CSS and fonts stay
+	# reachable for the maintenance page itself, and /.well-known/ stays open
+	# so cPanel's AutoSSL can keep renewing the HTTPS certificate.
+	RewriteCond %{REQUEST_URI} !^/maintenance\.php$
+	RewriteCond %{REQUEST_URI} !^/(images|css|fonts)/
+	RewriteCond %{REQUEST_URI} !^/\.well-known/
+	RewriteRule ^ /maintenance.php [L]
+	# --- END MAINTENANCE MODE ---
 </IfModule>
 
 # EZZI Perfumery House — cache control.
