@@ -1576,21 +1576,13 @@ body.ezzi-lightbox-open .ezzi-whatsapp { display: none; }
 	padding: 40px 44px;
 }
 .ezzi-showcase-kicker {
-	display: flex;
-	align-items: center;
-	gap: 12px;
+	display: block;
 	margin-bottom: 14px;
 	font-size: 12px;
 	font-weight: 600;
 	letter-spacing: 3px;
 	text-transform: uppercase;
 	color: #dfc083;
-}
-.ezzi-showcase-kicker::before {
-	content: '';
-	width: 28px;
-	height: 1px;
-	background: #f3c623;
 }
 .ezzi-showcase-text h2 {
 	margin: 0 0 16px;
