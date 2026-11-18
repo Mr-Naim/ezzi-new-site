@@ -8,7 +8,17 @@
 	RewriteEngine On
 	RewriteCond %{THE_REQUEST} \s/+index\.html[\s?] [NC]
 	RewriteRule ^index\.html$ /? [R=301,L]
+
+	# The contact form posts to /api/contact (the address it will use on
+	# Cloudflare); on cPanel, mail.php answers it with the same JSON.
+	RewriteRule ^api/contact$ /mail.php [L]
 </IfModule>
+
+# Branded "page not found" page — for the main site only, so the shop and
+# other subdomains under this folder keep their own error handling.
+<If "%{HTTP_HOST} =~ /^(www\.)?ezziph\.com$/i">
+	ErrorDocument 404 /404.html
+</If>
 
 # EZZI Perfumery House — cache control.
 #

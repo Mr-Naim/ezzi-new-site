@@ -1,6 +1,11 @@
 # Stale zip export from the old manual upload workflow — not source.
 index.zip
 
+# Raw source media kept beside the site (the optimised versions are in
+# images/gallery/ and video/); far too large for the repo.
+images/portfolio.mp4
+images/Website content/
+
 # OS/editor cruft
 .DS_Store
 Thumbs.db

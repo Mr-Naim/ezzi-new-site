@@ -12,6 +12,13 @@ function ezzi_clean($value) {
 	return str_replace(["\r", "\n"], '', $value);
 }
 
+// Spam trap: "website" is a hidden field people never see; bots that fill
+// it in get a normal-looking success reply and nothing is sent.
+if (ezzi_clean($_POST['website'] ?? '') !== '') {
+	echo json_encode(['ok' => true]);
+	exit;
+}
+
 $name    = ezzi_clean($_POST['name'] ?? '');
 $email   = ezzi_clean($_POST['email'] ?? '');
 $subject = ezzi_clean($_POST['subject'] ?? '');

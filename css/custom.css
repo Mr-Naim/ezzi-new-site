@@ -1,22 +1,31 @@
 /* EZZI Perfumery House — overrides on top of the Mostudio template.
    Kept separate from style.css so the template's own file is untouched. */
 
-/* Brand background — a lit emerald gradient (main content) paired with a
-   lighter emerald sidebar, replacing the flat near-black of the original
-   template so the approved dark-horse logo has a surface it reads against. */
+/* Brand background — a deep, near-black green (#0c1710, the colour behind
+   the "48 Years of Excellence" badge) that lets the gold accents carry the
+   page, with only a faint green light at the top. */
 body {
-	background-color: #0a1f16 !important;
+	background-color: #0c1710 !important;
 	background-image:
-		radial-gradient(ellipse 80% 50% at 62% -5%, rgba(58, 148, 105, 0.45), transparent 60%),
-		radial-gradient(ellipse 60% 40% at 8% 100%, rgba(31, 107, 73, 0.28), transparent 60%),
-		linear-gradient(165deg, #16412c 0%, #0d2b1d 45%, #081712 100%) !important;
+		radial-gradient(ellipse 80% 50% at 62% -5%, rgba(46, 112, 78, 0.2), transparent 60%),
+		radial-gradient(ellipse 60% 40% at 8% 100%, rgba(31, 90, 62, 0.12), transparent 60%),
+		linear-gradient(165deg, #112219 0%, #0c1710 45%, #080f0b 100%) !important;
 	background-attachment: fixed;
 }
+/* Sidebar: on desktop it has no background of its own, so the page's
+   background runs straight through it and only the gold border marks its
+   edge. (The logo's light band is on #colorlib-logo::before.) */
 #colorlib-aside {
-	background-color: #163f2b !important;
-	background-image:
-		radial-gradient(circle at 22% 9%, rgba(255, 255, 255, 0.16), transparent 40%),
-		linear-gradient(200deg, #1f6b49 0%, #163f2b 55%, #0e2a1c 100%) !important;
+	background-color: transparent !important;
+	background-image: none !important;
+}
+/* On phones/tablets the sidebar slides over the page as a menu, so it
+   needs a solid background — the same gradient as the page. */
+@media (max-width: 991.98px) {
+	#colorlib-aside {
+		background-color: #0c1710 !important;
+		background-image: linear-gradient(165deg, #112219 0%, #0c1710 45%, #080f0b 100%) !important;
+	}
 }
 /* Thick gold border strip along the sidebar's right edge. Drawn directly
    instead of relying on the template's aside.png background layer, which
@@ -34,7 +43,7 @@ body {
 	z-index: 2;
 }
 #ftco-loader.fullscreen {
-	background-color: #0d2b1d !important;
+	background-color: #0c1710 !important;
 }
 
 /* Golden gradient display text — a muted antique-gold tone. Kept to a
@@ -123,13 +132,34 @@ body {
 	background-image: none !important;
 	-webkit-text-fill-color: initial !important;
 	color: transparent;
-	display: block;
+	position: relative;
+	display: inline-block;
+	max-width: 145px;
+	width: 100%;
 }
 #colorlib-aside #colorlib-logo img {
+	position: relative;
 	max-width: 145px;
 	width: 100%;
 	height: auto;
 	display: block;
+}
+/* A soft band of light behind the logo, running the sidebar's full width,
+   so the logo's dark horses stand out against the dark green. It extends
+   past the heading by the sidebar's 30px side padding on each side (in px:
+   `em` here would use the heading's 60px font size and overshoot). */
+#colorlib-aside #colorlib-logo {
+	position: relative;
+}
+#colorlib-aside #colorlib-logo::before {
+	content: '';
+	position: absolute;
+	top: -34px;
+	bottom: -34px;
+	left: -30px;
+	right: -30px;
+	background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.09) 25%, rgba(255, 255, 255, 0.17) 50%, rgba(255, 255, 255, 0.09) 75%, rgba(255, 255, 255, 0) 100%);
+	pointer-events: none;
 }
 
 /* Mobile-only top bar: the sidebar is off-canvas (translated out of view)
@@ -314,20 +344,34 @@ body {
 	display: flex;
 	gap: 10px;
 }
-.ezzi-social a {
+/* Frosted glass icon buttons: the sidebar's social/phone links and the
+   contact page's address/phone/email icons. */
+.ezzi-social a,
+.info-wrap .dbox .icon {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	border-radius: 50%;
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.05) 60%, rgba(255, 255, 255, 0.03) 100%);
+	border: 1px solid rgba(255, 255, 255, 0.2);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.25),
+		0 6px 16px rgba(0, 0, 0, 0.25);
+	-webkit-backdrop-filter: blur(10px) saturate(150%);
+	backdrop-filter: blur(10px) saturate(150%);
+	transition: background 0.3s ease, border-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
+}
+.ezzi-social a {
 	width: 36px;
 	height: 36px;
-	border: 1px solid rgba(255, 255, 255, 0.3);
-	border-radius: 50%;
-	color: rgba(255, 255, 255, 0.8);
-	transition: all 0.3s ease;
+	color: rgba(255, 255, 255, 0.85);
 }
-.ezzi-social a:hover {
-	border-color: #f3c623;
+.ezzi-social a:hover,
+.ezzi-social a:focus {
+	background: linear-gradient(145deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.08) 100%);
+	border-color: rgba(243, 198, 35, 0.55);
 	color: #f3c623;
+	transform: translateY(-2px);
 }
 
 /* Category description copy inside the repurposed .pricing cards
@@ -431,15 +475,53 @@ body {
 	color: #0f1a12;
 }
 
+/* Narrow feature cards (four across beside the sidebar): a smaller icon
+   and title, so long titles still fit on two lines. */
+.ezzi-feature-card {
+	container-type: inline-size;
+}
+@container (max-width: 250px) {
+	.row .ezzi-feature-card h4 {
+		font-size: 13px;
+		letter-spacing: 0.3px;
+	}
+	.row .ezzi-feature-card .ezzi-feature-icon {
+		width: 36px;
+		height: 36px;
+	}
+	.row .ezzi-feature-card .ezzi-feature-icon svg {
+		width: 19px;
+		height: 19px;
+	}
+}
+/* Feature grid columns stack their card in a flex column, so every card
+   in a row stretches to the tallest one. */
+.row > [class*="col-"]:has(> .ezzi-feature-card) {
+	display: flex;
+	flex-direction: column;
+}
 /* Individual item card inside a category page's feature grid. */
 .ezzi-feature-card {
 	position: relative;
+	/* Clips the corner watermark. clip-path rather than overflow:hidden,
+	   which would stop the card growing past its aspect ratio and cut off
+	   long descriptions. */
+	clip-path: inset(0 round 6px);
+	/* Icon and title side by side on the top row; the description runs
+	   the card's full width underneath. */
+	display: grid;
+	grid-template-columns: auto 1fr;
+	grid-template-rows: auto 1fr;
+	column-gap: 12px;
+	align-content: start;
+	/* A little taller than wide; grows if the text needs more room. */
+	aspect-ratio: 9 / 10;
+	flex: 1 0 auto;
 	background: rgba(255, 255, 255, 0.04);
 	border: 1px solid rgba(255, 255, 255, 0.08);
 	border-top: 2px solid rgba(243, 198, 35, 0.45);
 	border-radius: 6px;
-	padding: 22px;
-	height: 100%;
+	padding: 24px;
 	margin-bottom: 24px;
 	transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
 }
@@ -448,17 +530,42 @@ body {
 	border-color: rgba(243, 198, 35, 0.6);
 	background: rgba(255, 255, 255, 0.06);
 }
+.ezzi-feature-card > .ezzi-feature-icon,
+.ezzi-feature-card > .ezzi-family-swatch {
+	grid-row: 1;
+	grid-column: 1;
+	align-self: center;
+}
+.ezzi-feature-card h4,
+.ezzi-feature-card p {
+	position: relative;
+	z-index: 1;
+}
 .ezzi-feature-card h4 {
+	grid-row: 1;
+	grid-column: 2;
+	align-self: center;
+	/* Room for two lines on every card, so descriptions start at the same
+	   height across a row whether the title takes one line or two. */
+	min-height: 2.8em;
+	display: flex;
+	align-items: center;
+	margin: 0;
 	color: #f3c623;
 	font-size: 15px;
+	line-height: 1.4;
 	text-transform: uppercase;
-	letter-spacing: 1px;
+	letter-spacing: 0.5px;
 	font-weight: 500;
-	margin-bottom: 10px;
 }
 .ezzi-feature-card p {
-	margin-bottom: 0;
+	grid-row: 2;
+	grid-column: 1 / -1;
+	margin: 18px 0 0;
+	padding-top: 16px;
+	border-top: 1px solid rgba(255, 255, 255, 0.07);
 	font-size: 14px;
+	line-height: 1.75;
 }
 
 /* Small icon badge topping each feature card, so the in-depth category
@@ -471,7 +578,6 @@ body {
 	align-items: center;
 	justify-content: center;
 	background: radial-gradient(circle at 30% 30%, rgba(243, 198, 35, 0.2), rgba(243, 198, 35, 0.04) 70%);
-	margin-bottom: 14px;
 	transition: transform 0.35s ease;
 }
 .ezzi-feature-icon svg {
@@ -489,8 +595,8 @@ body {
 .ezzi-family-swatch {
 	width: 26px;
 	height: 26px;
+	margin: 0 8px;
 	border-radius: 50%;
-	margin-bottom: 14px;
 	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
 	transition: transform 0.35s ease;
 }
@@ -519,57 +625,78 @@ body {
 @media (max-width: 575.98px) {
 	.ezzi-cat-col { width: 100%; }
 }
-.ezzi-cat-col:nth-child(2) .ezzi-icon-wrap { animation-delay: .3s; }
-.ezzi-cat-col:nth-child(3) .ezzi-icon-wrap { animation-delay: .6s; }
-.ezzi-cat-col:nth-child(4) .ezzi-icon-wrap { animation-delay: .9s; }
 
+/* Solid ivory cards (replacing the earlier translucent "glass" look):
+   deep-green type, a gold strip across the top and a dark-green icon
+   badge that turns gold on hover. */
 .ezzi-cat-card {
 	position: relative;
 	width: 100%;
-	padding: 34px 28px;
-	border-radius: 10px;
-	background: rgba(255, 255, 255, 0.03);
-	border: 1px solid rgba(255, 255, 255, 0.08);
-	transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, background 0.35s ease;
+	padding: 38px 28px 30px;
+	border-radius: 14px;
+	overflow: hidden;
+	background: #f6efdf;
+	box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+	transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.35s ease;
 	display: flex;
 	flex-direction: column;
 	text-decoration: none !important;
 	cursor: pointer;
 }
+.ezzi-cat-card::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 5px;
+	background: linear-gradient(90deg, #ab8b57, #f3c623 50%, #ab8b57);
+	transition: height 0.35s ease;
+}
 .ezzi-cat-card:hover {
 	transform: translateY(-8px);
-	border-color: rgba(243, 198, 35, 0.5);
-	background: rgba(255, 255, 255, 0.05);
-	box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+	box-shadow: 0 28px 50px rgba(0, 0, 0, 0.45);
+}
+.ezzi-cat-card:hover::before {
+	height: 8px;
+}
+.ezzi-cat-card:focus-visible {
+	outline: 3px solid #f3c623;
+	outline-offset: 3px;
 }
 .ezzi-icon-wrap {
-	width: 78px;
-	height: 78px;
+	width: 72px;
+	height: 72px;
 	border-radius: 50%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	background: radial-gradient(circle at 30% 30%, rgba(243, 198, 35, 0.22), rgba(243, 198, 35, 0.04) 70%);
-	margin-bottom: 22px;
-	animation: ezzi-float 4s ease-in-out infinite;
+	background: #0f3021;
+	box-shadow: inset 0 0 0 1px rgba(223, 192, 131, 0.35);
+	margin-bottom: 24px;
+	transition: background-color 0.35s ease;
 }
 .ezzi-icon {
-	width: 38px;
-	height: 38px;
+	width: 34px;
+	height: 34px;
 	color: #f3c623;
-	transition: transform 0.4s ease;
+	transition: transform 0.4s ease, color 0.35s ease;
+}
+.ezzi-cat-card:hover .ezzi-icon-wrap {
+	background: #f3c623;
 }
 .ezzi-cat-card:hover .ezzi-icon {
-	transform: scale(1.14) rotate(-4deg);
+	color: #0f3021;
+	transform: scale(1.1) rotate(-4deg);
 }
 .ezzi-cat-card h3 {
-	color: #fff;
+	color: #10291c;
 	font-size: 21px;
 	font-weight: 600;
 	margin-bottom: 10px;
 }
 .ezzi-cat-card p {
-	color: rgba(255, 255, 255, 0.7);
+	color: #4d5b51;
 	font-size: 14px;
 	line-height: 1.7;
 	margin-bottom: 18px;
@@ -578,34 +705,38 @@ body {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 8px;
-	margin-bottom: 22px;
+	margin-bottom: 24px;
 }
 .ezzi-chip {
 	font-size: 11px;
 	text-transform: uppercase;
 	letter-spacing: 0.5px;
 	font-weight: 600;
-	color: rgba(255, 255, 255, 0.65);
-	border: 1px solid rgba(255, 255, 255, 0.12);
+	color: #2c4436;
+	background: rgba(16, 41, 28, 0.06);
 	border-radius: 30px;
-	padding: 4px 12px;
+	padding: 5px 12px;
 }
 .ezzi-cat-link {
 	margin-top: auto;
-	display: inline-flex;
+	padding-top: 16px;
+	border-top: 1px solid rgba(16, 41, 28, 0.12);
+	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	gap: 8px;
 	text-transform: uppercase;
 	font-size: 12px;
 	letter-spacing: 2px;
-	color: #f3c623;
+	color: #10291c;
 	font-weight: 700;
 }
-.ezzi-cat-link .fa {
-	font-size: 12px;
+.ezzi-cat-link .ti {
+	font-size: 16px;
+	color: #b8912f;
 	transition: transform 0.3s ease;
 }
-.ezzi-cat-card:hover .ezzi-cat-link .fa {
+.ezzi-cat-card:hover .ezzi-cat-link .ti {
 	transform: translateX(6px);
 }
 
@@ -614,58 +745,9 @@ body {
 	50% { transform: translateY(-6px); }
 }
 
-/* Animated icon-based hero visual for the in-depth category pages — swaps
-   the repeated hero photo for a unique, on-brand illustration per page. */
-.ezzi-hero-visual {
-	position: relative;
-	width: 100%;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	overflow: hidden;
-	background:
-		radial-gradient(circle at 20% 20%, rgba(243, 198, 35, 0.16), transparent 45%),
-		radial-gradient(circle at 80% 75%, rgba(243, 198, 35, 0.1), transparent 50%),
-		#0c1710;
-}
-.ezzi-hero-visual .ezzi-blob {
-	position: absolute;
-	border-radius: 50%;
-	background: rgba(243, 198, 35, 0.08);
-	animation: ezzi-blob-float 8s ease-in-out infinite;
-}
-.ezzi-hero-visual .ezzi-blob.b1 { width: 220px; height: 220px; top: 8%; left: 8%; }
-.ezzi-hero-visual .ezzi-blob.b2 { width: 160px; height: 160px; bottom: 10%; right: 12%; animation-delay: 1.5s; }
-.ezzi-hero-visual .ezzi-blob.b3 { width: 90px; height: 90px; top: 55%; left: 20%; animation-delay: 3s; }
-@keyframes ezzi-blob-float {
-	0%, 100% { transform: translate(0, 0) scale(1); }
-	50% { transform: translate(12px, -16px) scale(1.06); }
-}
-.ezzi-hero-visual .ezzi-hero-icon {
-	position: relative;
-	width: 42%;
-	max-width: 220px;
-	color: #f3c623;
-	filter: drop-shadow(0 8px 24px rgba(243, 198, 35, 0.25));
-	animation: ezzi-float 5s ease-in-out infinite;
-}
-
-/* On phones the columns stack, so this visual (JS-forced to full window
-   height via .js-fullheight) was pushing the whole page's worth of copy
-   below a screen-tall block of empty space. Cap it to a short banner and
-   shrink the blobs/icon to match instead of leaving them lost in it. */
+/* About page: on phones the badge panel (JS-forced to full window height
+   via .js-fullheight) is capped to a short banner. */
 @media (max-width: 767.98px) {
-	.ezzi-hero-visual.js-fullheight {
-		height: 260px !important;
-	}
-	.ezzi-hero-visual .ezzi-hero-icon {
-		width: 30%;
-		max-width: 120px;
-	}
-	.ezzi-hero-visual .ezzi-blob.b1 { width: 130px; height: 130px; }
-	.ezzi-hero-visual .ezzi-blob.b2 { width: 90px; height: 90px; }
-	.ezzi-hero-visual .ezzi-blob.b3 { width: 54px; height: 54px; }
-
 	/* Same full-window-height issue on the About hero's badge panel. At the
 	   desktop 55% sizing this badge nearly touched the shortened panel's
 	   top/bottom edge, so scale it down further on phones. */
@@ -749,21 +831,23 @@ body {
 
 	/* Bouncing "scroll for more" cue on the intro hero only. */
 	#colorlib-main .row.d-flex.no-gutters > .portfolio-wrap:first-child .row.no-gutters::after {
-		content: '\f107';
-		font-family: FontAwesome;
+		/* A CSS chevron (was a Font Awesome glyph). */
+		content: '';
 		position: absolute;
 		left: 50%;
-		bottom: 18px;
-		transform: translateX(-50%);
+		bottom: 26px;
+		width: 12px;
+		height: 12px;
+		border-right: 2px solid rgba(255, 255, 255, 0.85);
+		border-bottom: 2px solid rgba(255, 255, 255, 0.85);
+		transform: translateX(-50%) rotate(45deg);
 		z-index: 3;
-		color: rgba(255, 255, 255, 0.85);
-		font-size: 22px;
 		animation: ezzi-scroll-cue 1.6s ease-in-out infinite;
 		pointer-events: none;
 	}
 	@keyframes ezzi-scroll-cue {
-		0%, 100% { transform: translateX(-50%) translateY(0); opacity: 0.6; }
-		50% { transform: translateX(-50%) translateY(8px); opacity: 1; }
+		0%, 100% { transform: translateX(-50%) translateY(0) rotate(45deg); opacity: 0.6; }
+		50% { transform: translateX(-50%) translateY(8px) rotate(45deg); opacity: 1; }
 	}
 }
 
@@ -827,7 +911,7 @@ body {
 	font-weight: 600;
 	font-size: 14.5px;
 }
-.ezzi-whatsapp-header .fa-whatsapp {
+.ezzi-whatsapp-header .ti {
 	font-size: 20px;
 }
 .ezzi-whatsapp-header-title {
@@ -1003,4 +1087,803 @@ body {
    keeps the map row properly pushed below it on every screen size. */
 .info-wrap.js-fullheight {
 	height: auto !important;
+}
+
+/* ------------------------------------------------------------------
+   Icons (Tabler, inlined as SVG by src/components/Icon.astro).
+   1em square by default, so an icon takes its size from font-size the
+   way the old Font Awesome glyphs did.
+   ------------------------------------------------------------------ */
+/* :where() keeps this default at zero specificity, so any component
+   rule that sizes its icon (.ezzi-icon, .ezzi-hero-icon, …) wins. */
+:where(.ti) {
+	display: inline-block;
+	width: 1em;
+	height: 1em;
+	flex-shrink: 0;
+	vertical-align: -0.125em;
+}
+.ezzi-social a { font-size: 17px; }
+.ezzi-whatsapp-input button { font-size: 18px; }
+.info-wrap .dbox .icon .ti {
+	font-size: 21px;
+	color: #f3c623;
+}
+
+/* ------------------------------------------------------------------
+   Sidebar border glow: a bright spot of light that travels down the gold
+   border strip and back up, in a continuous loop.
+   ------------------------------------------------------------------ */
+#colorlib-aside::before {
+	/* Exactly the gold strip's width and position, and no shadow, so the
+	   light never spills past the border; "screen" blending brightens the
+	   gold underneath instead of painting a separate bar on top of it. */
+	content: '';
+	position: absolute;
+	right: 0;
+	top: -26%;
+	width: 5px;
+	height: 26%;
+	background: linear-gradient(180deg, rgba(255, 252, 235, 0) 0%, rgba(255, 252, 235, 0.55) 30%, #fffcea 50%, rgba(255, 252, 235, 0.55) 70%, rgba(255, 252, 235, 0) 100%);
+	mix-blend-mode: screen;
+	z-index: 3;
+	pointer-events: none;
+	animation: ezzi-border-glow 7s ease-in-out infinite alternate;
+}
+@keyframes ezzi-border-glow {
+	from { top: -26%; }
+	to { top: 100%; }
+}
+@media (prefers-reduced-motion: reduce) {
+	#colorlib-aside::before { display: none; }
+}
+
+/* ------------------------------------------------------------------
+   Home hero: full-bleed background video with the intro text on top.
+   ------------------------------------------------------------------ */
+#colorlib-main .ezzi-video-hero .row.no-gutters {
+	position: relative;
+	overflow: hidden;
+	min-height: 480px;
+	background: #0c1710;
+}
+.ezzi-video-hero-media {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	z-index: 0;
+}
+/* Darkens the right side (where the text sits) and the bottom edge, so the
+   text stays readable over any frame of the video. */
+.ezzi-video-hero-shade {
+	position: absolute;
+	inset: 0;
+	z-index: 1;
+	pointer-events: none;
+	background:
+		linear-gradient(270deg, rgba(6, 14, 9, 0.88) 0%, rgba(6, 14, 9, 0.72) 30%, rgba(6, 14, 9, 0.28) 60%, rgba(6, 14, 9, 0.05) 100%),
+		linear-gradient(0deg, rgba(6, 14, 9, 0.5) 0%, rgba(6, 14, 9, 0) 28%);
+}
+#colorlib-main .ezzi-video-hero .ezzi-video-hero-copy {
+	position: relative;
+	z-index: 2;
+}
+@media (max-width: 767.98px) {
+	/* Phones: the text sits at the bottom, so shade from the bottom up. */
+	.ezzi-video-hero-shade {
+		background: linear-gradient(180deg, rgba(6, 14, 9, 0.15) 0%, rgba(6, 14, 9, 0.35) 35%, rgba(6, 14, 9, 0.85) 62%, rgba(6, 14, 9, 0.95) 100%);
+	}
+}
+
+/* ------------------------------------------------------------------
+   Gallery page: albums of photos in an even grid, opening in a lightbox.
+   ------------------------------------------------------------------ */
+.ezzi-gallery-page {
+	padding-top: 36px !important;
+}
+.ezzi-album + .ezzi-album {
+	margin-top: 56px;
+}
+.ezzi-album-head {
+	/* "EXHIBITION" on the left, the album title on the right. */
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: baseline;
+	gap: 4px 16px;
+	margin-bottom: 20px;
+	padding-bottom: 14px;
+	border-bottom: 1px solid rgba(223, 192, 131, 0.25);
+}
+.ezzi-album-head .subheading {
+	text-transform: uppercase;
+	font-size: 12px;
+	letter-spacing: 3px;
+	color: rgba(255, 255, 255, 0.5);
+	font-weight: 600;
+}
+.ezzi-album-head h2 {
+	margin: 0;
+	color: #dfc083;
+	font-family: "Poppins", Arial, sans-serif;
+	font-weight: 600;
+	font-size: 24px;
+}
+.ezzi-gallery {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	gap: 12px;
+}
+@media (max-width: 991.98px) {
+	.ezzi-gallery { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 400px) {
+	.ezzi-gallery { gap: 8px; }
+}
+.ezzi-gallery-item {
+	position: relative;
+	display: block;
+	aspect-ratio: 3 / 2;
+	overflow: hidden;
+	border-radius: 10px;
+	background: rgba(255, 255, 255, 0.05);
+}
+.ezzi-gallery-item img {
+	display: block;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ezzi-gallery-item::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	border-radius: inherit;
+	box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+	transition: box-shadow 0.3s ease;
+	pointer-events: none;
+}
+.ezzi-gallery-zoom {
+	position: absolute;
+	right: 10px;
+	bottom: 10px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 34px;
+	height: 34px;
+	border-radius: 50%;
+	background: rgba(6, 14, 9, 0.6);
+	color: #f3c623;
+	font-size: 16px;
+	opacity: 0;
+	transform: translateY(6px);
+	transition: opacity 0.3s ease, transform 0.3s ease;
+}
+@media (hover: hover) {
+	.ezzi-gallery-item:hover img { transform: scale(1.05); }
+	.ezzi-gallery-item:hover::after { box-shadow: inset 0 0 0 2px rgba(243, 198, 35, 0.8); }
+	.ezzi-gallery-item:hover .ezzi-gallery-zoom { opacity: 1; transform: none; }
+}
+.ezzi-gallery-item:focus-visible {
+	outline: 2px solid #f3c623;
+	outline-offset: 2px;
+}
+/* Lightbox fade (the template's magnific-popup stylesheet has none). */
+.mfp-fade.mfp-bg { opacity: 0; transition: opacity 0.16s ease-out; }
+.mfp-fade.mfp-bg.mfp-ready { opacity: 0.9; }
+.mfp-fade.mfp-bg.mfp-removing { opacity: 0; }
+.mfp-fade.mfp-wrap .mfp-content { opacity: 0; transition: opacity 0.16s ease-out; }
+.mfp-fade.mfp-wrap.mfp-ready .mfp-content { opacity: 1; }
+.mfp-fade.mfp-wrap.mfp-removing .mfp-content { opacity: 0; }
+body.ezzi-lightbox-open .ezzi-whatsapp { display: none; }
+
+/* Hero buttons: "Our Story" plus "Watch Our Film" (opens the full film). */
+.ezzi-hero-actions {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 14px 22px;
+}
+.ezzi-film-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	color: #fff;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 1.5px;
+	text-transform: uppercase;
+	text-shadow: 0 1px 6px rgba(0, 0, 0, 0.7);
+}
+.ezzi-film-btn:hover,
+.ezzi-film-btn:focus {
+	color: #f3c623;
+}
+.ezzi-film-btn-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: #f3c623;
+	color: #0f1a12;
+	font-size: 18px;
+	box-shadow: 0 0 0 0 rgba(243, 198, 35, 0.6);
+	animation: ezzi-film-pulse 2.4s ease-out infinite;
+}
+.ezzi-film-btn-icon .ti {
+	margin-left: 2px; /* optically centre the play triangle */
+	fill: currentColor;
+}
+.ezzi-film-btn-time {
+	color: rgba(255, 255, 255, 0.6);
+	font-weight: 500;
+	letter-spacing: 1px;
+}
+@keyframes ezzi-film-pulse {
+	0% { box-shadow: 0 0 0 0 rgba(243, 198, 35, 0.55); }
+	70% { box-shadow: 0 0 0 14px rgba(243, 198, 35, 0); }
+	100% { box-shadow: 0 0 0 0 rgba(243, 198, 35, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+	.ezzi-film-btn-icon { animation: none; }
+}
+.ezzi-film-popup {
+	position: relative;
+	width: min(92vw, calc(84vh * 1.98));
+	margin: 0 auto;
+}
+.ezzi-film-popup video {
+	display: block;
+	width: 100%;
+	height: auto;
+	aspect-ratio: 1280 / 646;
+	background: #000;
+	border-radius: 8px;
+	box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+}
+@media (max-width: 767.98px) {
+	/* Keep the hero buttons clear of the bouncing scroll arrow. */
+	#colorlib-main .ezzi-video-hero .text {
+		padding-bottom: 92px !important;
+	}
+}
+
+/* ------------------------------------------------------------------
+   Phone/tablet header. Transparent at the top of the page; a solid,
+   blurred bar once scrolled into the content (class set in Layout.astro).
+   On the homepage it floats over the video instead of sitting above it.
+   ------------------------------------------------------------------ */
+@media (max-width: 991.98px) {
+	.ezzi-mobile-topbar {
+		transition: background-color 0.3s ease, box-shadow 0.3s ease;
+	}
+	.ezzi-mobile-topbar.is-solid {
+		background-color: rgba(13, 43, 29, 0.92);
+		-webkit-backdrop-filter: blur(10px);
+		backdrop-filter: blur(10px);
+		box-shadow: 0 1px 0 rgba(223, 192, 131, 0.18);
+	}
+	body.has-video-hero .ezzi-mobile-topbar {
+		position: fixed;
+		left: 0;
+		right: 0;
+	}
+	/* Over moving video the dark horses of the logo need a soft halo. */
+	body.has-video-hero .ezzi-mobile-topbar:not(.is-solid) img {
+		filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.35)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.35));
+	}
+}
+@media (max-width: 767.98px) {
+	/* The header no longer takes space above the hero, so the hero (and the
+	   video under the header) fills the whole screen. Overrides the inline
+	   height main.js sets. */
+	#colorlib-main .ezzi-video-hero .row.no-gutters {
+		height: 100vh !important;
+		height: 100svh !important;
+	}
+}
+
+/* Typewriter hero title (script in index.astro). The full title is in the
+   HTML for search engines and screen readers; letters are only hidden and
+   revealed, so the heading never changes size while typing. */
+[data-typewriter] .tw-word {
+	white-space: nowrap;
+}
+[data-typewriter].is-typing .tw-char {
+	visibility: hidden;
+}
+[data-typewriter].is-typing .tw-char.is-shown {
+	visibility: visible;
+}
+[data-typewriter] .tw-char.is-caret {
+	position: relative;
+}
+[data-typewriter] .tw-char.is-caret::after {
+	content: '';
+	position: absolute;
+	top: 0.14em;
+	bottom: 0.06em;
+	right: -0.12em;
+	width: 3px;
+	border-radius: 2px;
+	background: #f3c623;
+	-webkit-text-fill-color: initial;
+	animation: ezzi-caret 1s steps(1) infinite;
+}
+[data-typewriter].is-typing:not(.is-typed) .tw-char.is-caret::after {
+	animation: none; /* solid while typing, blinks once finished */
+}
+@keyframes ezzi-caret {
+	50% { opacity: 0; }
+}
+@media (max-width: 767.98px) {
+	/* Home "Explore / Our Categories": the section has no top padding, so on
+	   phones its heading sat right against the last image above it. */
+	.ezzi-home-categories {
+		padding-top: 56px !important;
+	}
+}
+
+/* ------------------------------------------------------------------
+   Home: gold ticker between the hero and the category showcase.
+   ------------------------------------------------------------------ */
+.ezzi-marquee {
+	position: relative;
+	overflow: hidden;
+	padding: 18px 0;
+	border-top: 1px solid rgba(223, 192, 131, 0.22);
+	border-bottom: 1px solid rgba(223, 192, 131, 0.22);
+	background: rgba(6, 14, 9, 0.35);
+	-webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+	mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.ezzi-marquee-track {
+	display: flex;
+	width: max-content;
+	animation: ezzi-marquee 56s linear infinite;
+}
+.ezzi-marquee-group {
+	display: flex;
+	align-items: center;
+	flex-shrink: 0;
+}
+.ezzi-marquee-word {
+	padding: 0 22px;
+	font-family: "Poppins", Arial, sans-serif;
+	font-size: clamp(20px, 2.4vw, 30px);
+	font-weight: 500;
+	letter-spacing: 0.5px;
+	white-space: nowrap;
+	color: #fff;
+}
+.ezzi-marquee-dot {
+	flex-shrink: 0;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: #f3c623;
+	opacity: 0.85;
+}
+@keyframes ezzi-marquee {
+	from { transform: translateX(0); }
+	to { transform: translateX(-50%); }
+}
+
+/* ------------------------------------------------------------------
+   Home: category showcase — frosted glass panels that sit on the glass
+   page background. Each holds a straight photo inset with rounded
+   corners (like the hero) and a small glass number chip; on wide screens
+   the photo alternates sides (.is-flipped), on phones it sits on top.
+   ------------------------------------------------------------------ */
+.ezzi-showcase {
+	display: grid;
+	gap: 28px;
+	max-width: 1120px;
+	margin: 0 auto;
+	padding: 64px 40px 80px;
+}
+.ezzi-showcase-card {
+	position: relative;
+	display: grid;
+	grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+	align-items: center;
+	gap: 8px;
+	padding: 14px;
+	border-radius: 26px;
+	background:
+		linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.035) 45%, rgba(255, 255, 255, 0.02) 100%);
+	border: 1px solid rgba(255, 255, 255, 0.12);
+	box-shadow:
+		inset 0 1px 0 rgba(255, 255, 255, 0.16),
+		0 24px 60px rgba(0, 0, 0, 0.28);
+	overflow: hidden;
+	isolation: isolate;
+	transition: translate 0.5s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.5s ease;
+}
+/* A soft gold light in the corner the text sits in. */
+.ezzi-showcase-card::before {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	top: -30%;
+	right: -10%;
+	width: 60%;
+	aspect-ratio: 1;
+	background: radial-gradient(circle, rgba(243, 198, 35, 0.03), rgba(243, 198, 35, 0) 65%);
+	pointer-events: none;
+}
+.ezzi-showcase-card.is-flipped::before {
+	right: auto;
+	left: -10%;
+}
+.ezzi-showcase-card.is-flipped .ezzi-showcase-media {
+	order: 2;
+}
+.ezzi-showcase-media {
+	position: relative;
+	display: block;
+	height: 100%;
+	min-height: 380px;
+	border-radius: 18px;
+	overflow: hidden;
+	isolation: isolate;
+}
+.ezzi-showcase-media img {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	transition: transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+/* Darken the photo's lower edge a touch so the chip always reads. */
+.ezzi-showcase-media::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(180deg, rgba(0, 0, 0, 0) 55%, rgba(0, 0, 0, 0.35) 100%);
+	pointer-events: none;
+}
+.ezzi-showcase-chip {
+	position: absolute;
+	z-index: 1;
+	left: 16px;
+	bottom: 16px;
+	padding: 7px 14px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.14);
+	border: 1px solid rgba(255, 255, 255, 0.28);
+	-webkit-backdrop-filter: blur(12px) saturate(160%);
+	backdrop-filter: blur(12px) saturate(160%);
+	color: #fff;
+	font-family: "Poppins", Arial, sans-serif;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 1px;
+	line-height: 1;
+}
+.ezzi-showcase-chip span {
+	opacity: 0.6;
+	font-weight: 400;
+}
+.ezzi-showcase-text {
+	padding: 40px 44px;
+}
+.ezzi-showcase-kicker {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-bottom: 14px;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	color: #dfc083;
+}
+.ezzi-showcase-kicker::before {
+	content: '';
+	width: 28px;
+	height: 1px;
+	background: #f3c623;
+}
+.ezzi-showcase-text h2 {
+	margin: 0 0 16px;
+	font-family: "Poppins", Arial, sans-serif;
+	font-size: clamp(26px, 2.6vw, 36px);
+	font-weight: 600;
+	line-height: 1.2;
+}
+.ezzi-showcase-text h2 a {
+	color: #fff;
+}
+.ezzi-showcase-text p {
+	max-width: 440px;
+	margin-bottom: 26px;
+	color: rgba(255, 255, 255, 0.78);
+	font-size: 15px;
+	line-height: 1.75;
+}
+/* Glass pill button with a gold arrow badge. */
+.ezzi-showcase-link {
+	display: inline-flex;
+	align-items: center;
+	gap: 12px;
+	padding: 6px 6px 6px 20px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
+	border: 1px solid rgba(255, 255, 255, 0.18);
+	color: #fff;
+	font-size: 12px;
+	font-weight: 600;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+	transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+.ezzi-showcase-link .ti {
+	box-sizing: content-box;
+	width: 16px;
+	height: 16px;
+	padding: 8px;
+	border-radius: 50%;
+	background: #f3c623;
+	color: #0f1a12;
+	stroke-width: 2;
+	transition: transform 0.3s ease;
+}
+.ezzi-showcase-link:hover,
+.ezzi-showcase-link:focus {
+	background: rgba(255, 255, 255, 0.14);
+	border-color: rgba(243, 198, 35, 0.6);
+	color: #fff;
+}
+.ezzi-showcase-link:hover .ti,
+.ezzi-showcase-link:focus .ti {
+	transform: rotate(45deg);
+}
+@media (hover: hover) {
+	.ezzi-showcase-card:hover {
+		/* `translate`, not `transform`: the scroll-in fade animation holds
+		   `transform`, which would cancel a hover transform. */
+		translate: 0 -6px;
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.16),
+			0 34px 70px rgba(0, 0, 0, 0.36);
+	}
+	.ezzi-showcase-card:hover .ezzi-showcase-media img {
+		transform: scale(1.05);
+	}
+}
+@media (max-width: 991.98px) {
+	.ezzi-showcase {
+		padding: 48px 24px 64px;
+	}
+	.ezzi-showcase-text {
+		padding: 28px 26px;
+	}
+	.ezzi-showcase-media {
+		min-height: 320px;
+	}
+}
+@media (max-width: 767.98px) {
+	.ezzi-showcase {
+		gap: 18px;
+		padding: 32px 16px 24px;
+	}
+	.ezzi-showcase-card {
+		grid-template-columns: 1fr;
+		gap: 0;
+		padding: 10px;
+		border-radius: 22px;
+	}
+	.ezzi-showcase-card.is-flipped .ezzi-showcase-media {
+		order: 0;
+	}
+	.ezzi-showcase-media {
+		height: auto;
+		min-height: 0;
+		aspect-ratio: 16 / 11;
+		border-radius: 14px;
+	}
+	.ezzi-showcase-chip {
+		left: 12px;
+		bottom: 12px;
+		font-size: 12px;
+	}
+	.ezzi-showcase-text {
+		padding: 22px 14px 14px;
+	}
+	.ezzi-showcase-kicker {
+		margin-bottom: 10px;
+		font-size: 11px;
+	}
+	.ezzi-showcase-text h2 {
+		margin-bottom: 10px;
+		font-size: 23px;
+	}
+	.ezzi-showcase-text p {
+		margin-bottom: 20px;
+		font-size: 14px;
+		line-height: 1.7;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.ezzi-marquee-track {
+		animation: none;
+	}
+	.ezzi-showcase-media img,
+	.ezzi-showcase-card {
+		transition: none;
+	}
+}
+
+/* ------------------------------------------------------------------
+   Category pages (fragrances/flavours/colours/seasoning): a centred text
+   intro at the top instead of the old icon + text split hero.
+   ------------------------------------------------------------------ */
+.ezzi-page-intro {
+	padding: 72px 0 8px;
+}
+.ezzi-page-intro-text {
+	max-width: 1080px;
+	margin: 0 auto;
+	text-align: center;
+}
+.ezzi-page-intro-text .subheading {
+	display: block;
+	margin-bottom: 8px;
+}
+.ezzi-page-intro-text h2 {
+	font-size: clamp(30px, 4vw, 46px);
+	line-height: 1.2;
+}
+.ezzi-page-intro-text p {
+	max-width: 1000px;
+	margin-left: auto;
+	margin-right: auto;
+	font-size: 16px;
+	line-height: 1.8;
+}
+@media (max-width: 767.98px) {
+	.ezzi-page-intro {
+		padding: 40px 0 0;
+	}
+	.ezzi-page-intro-text {
+		padding: 0 10px;
+	}
+}
+
+/* Large, faint outline of the card's own icon in the bottom-right corner,
+   filling the extra height of the taller feature cards. */
+.ezzi-feature-card .ezzi-feature-watermark {
+	position: absolute;
+	right: -14%;
+	bottom: -14%;
+	width: 62%;
+	height: auto;
+	aspect-ratio: 1;
+	color: rgba(243, 198, 35, 0.07);
+	pointer-events: none;
+	transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), color 0.4s ease;
+}
+.ezzi-feature-card:hover .ezzi-feature-watermark {
+	color: rgba(243, 198, 35, 0.12);
+	transform: rotate(-8deg) scale(1.05);
+}
+@media (max-width: 575.98px) {
+	/* One card per row on phones: a card taller than the screen is wide
+	   would be mostly empty, so use a modest minimum height instead. */
+	.ezzi-feature-card {
+		aspect-ratio: auto;
+	}
+}
+
+/* Category pages: the "What We Offer / The Full … Range" heading is now the
+   page's main title, above the intro text; the partner logos follow the
+   intro directly. */
+.ezzi-page-intro-heading {
+	margin-bottom: 20px;
+}
+.ezzi-page-intro-heading h2 {
+	font-size: clamp(32px, 4vw, 46px);
+	line-height: 1.2;
+}
+.ezzi-page-intro + .ezzi-content {
+	padding-top: 24px;
+}
+@media (min-width: 992px) {
+	/* Smaller ticker text on desktop. */
+	.ezzi-marquee {
+		padding: 14px 0;
+	}
+	.ezzi-marquee-word {
+		font-size: 20px;
+		padding: 0 18px;
+	}
+	.ezzi-marquee-dot {
+		width: 6px;
+		height: 6px;
+	}
+}
+@media (max-width: 767.98px) {
+	.ezzi-gallery-page {
+		padding-top: 20px !important;
+	}
+}
+@media (max-width: 767.98px) {
+	/* Keep "EXHIBITION" and the album title on one line on phones. */
+	.ezzi-album-head {
+		flex-wrap: nowrap;
+	}
+	.ezzi-album-head h2 {
+		font-size: 18px;
+		text-align: right;
+	}
+	.ezzi-album-head .subheading {
+		font-size: 11px;
+		letter-spacing: 2px;
+		white-space: nowrap;
+	}
+}
+
+/* Home hero: inset the video from the edges with rounded corners, so a
+   strip of the page background shows around it. Heights override the
+   inline full-window height that main.js sets. */
+#colorlib-main .ezzi-video-hero {
+	padding: 14px !important;
+}
+#colorlib-main .ezzi-video-hero .row.no-gutters {
+	height: calc(100vh - 28px) !important;
+	border-radius: 20px;
+	overflow: hidden;
+	isolation: isolate; /* keeps the video clipped to the rounded corners in Safari */
+}
+@media (max-width: 767.98px) {
+	/* Phones: no inset, the video runs edge to edge. */
+	#colorlib-main .ezzi-video-hero {
+		padding: 0 !important;
+	}
+	#colorlib-main .ezzi-video-hero .row.no-gutters {
+		height: 100vh !important;
+		height: 100svh !important;
+		border-radius: 0;
+	}
+}
+@media (max-width: 767.98px) {
+	/* Keep "EZZI PERFUMERY HOUSE · EST. 1978" on one line on small phones. */
+	#colorlib-main .ezzi-video-hero .text {
+		padding-left: 22px !important;
+		padding-right: 22px !important;
+	}
+	#colorlib-main .ezzi-video-hero .subheading {
+		letter-spacing: 2px;
+		white-space: nowrap;
+	}
+}
+
+/* ------------------------------------------------------------------
+   Page glass: a fixed pane over the page background with a faint light
+   from above, a diagonal glint and a deep green tint, so content sits on
+   "glass". (No backdrop blur: there is nothing moving behind it to blur,
+   and a full-screen blur is costly on phones.)
+   ------------------------------------------------------------------ */
+.ezzi-bg-glass {
+	position: fixed;
+	inset: 0;
+	z-index: -1;
+	pointer-events: none;
+	background:
+		/* diagonal glint */
+		linear-gradient(115deg, rgba(255, 255, 255, 0) 28%, rgba(255, 255, 255, 0.03) 40%, rgba(255, 255, 255, 0) 52%),
+		/* light falling on the glass from above */
+		radial-gradient(120% 70% at 50% -12%, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0) 60%),
+		/* deep green tint */
+		linear-gradient(rgba(3, 20, 12, 0.12), rgba(3, 20, 12, 0.12));
+	box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 0 1px rgba(255, 255, 255, 0.04);
 }
